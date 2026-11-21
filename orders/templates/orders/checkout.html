@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>GreenBasket | Checkout</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f8f4;
+            margin: 0;
+            padding: 20px;
+        }
+
+        header {
+            background: #198754;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .checkout-container {
+            max-width: 650px;
+            margin: 30px auto;
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 12px;
+            margin: 8px 0 18px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background: #198754;
+            color: white;
+            border: none;
+            padding: 13px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background: #146c43;
+        }
+
+        .total {
+            font-size: 20px;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+
+        .error {
+            color: red;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>GreenBasket</h1>
+    <p>Complete Your Order</p>
+</header>
+
+<div class="checkout-container">
+
+    <h2>Delivery Details</h2>
+
+    <form method="POST">
+        {% csrf_token %}
+
+        {{ form.non_field_errors }}
+
+        <label>Full Name</label>
+        {{ form.customer_name }}
+        {{ form.customer_name.errors }}
+
+        <label>Email Address</label>
+        {{ form.email }}
+        {{ form.email.errors }}
+
+        <label>Phone Number</label>
+        {{ form.phone }}
+        {{ form.phone.errors }}
+
+        <label>Delivery Address</label>
+        {{ form.delivery_address }}
+        {{ form.delivery_address.errors }}
+
+        <h3>Order Summary</h3>
+
+        {% for item in cart_items %}
+            <p>
+                {{ item.product.name }}
+                × {{ item.quantity }}
+                — €{{ item.subtotal|floatformat:2 }}
+            </p>
+        {% endfor %}
+
+        <div class="total">
+            Total: €{{ total_price|floatformat:2 }}
+        </div>
+
+        <button type="submit">Place Order</button>
+    </form>
+
+    <p>
+        <a href="{% url 'cart_detail' %}">Back to Shopping Cart</a>
+    </p>
+
+</div>
+
+</body>
+</html>

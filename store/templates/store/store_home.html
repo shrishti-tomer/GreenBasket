@@ -1,0 +1,225 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>GreenBasket | Online Grocery Store</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f7f2;
+            color: #26352b;
+            margin: 0;
+        }
+
+        header {
+            background: #174d35;
+            color: white;
+            padding: 25px 40px;
+        }
+
+        header h1 {
+            margin: 0;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 30px auto;
+            padding: 20px;
+        }
+
+        .intro {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+        }
+
+        .products {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .product-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        .product-card h3 {
+            color: #174d35;
+        }
+
+        .price {
+            font-weight: bold;
+            color: #247447;
+        }
+
+        .stock {
+            color: #555;
+            font-size: 14px;
+        }
+
+        .search-form {
+            margin-bottom: 25px;
+        }
+
+        .search-form input,
+        .search-form select {
+            padding: 10px;
+            margin: 5px;
+        }
+
+        .search-button,
+        .cart-button {
+            padding: 10px 15px;
+            background: #174d35;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .cart-button:hover,
+        .search-button:hover {
+            background: #247447;
+        }
+
+        .clear-link {
+            margin-left: 10px;
+            color: #174d35;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+        }
+    </style>
+</head>
+
+<body>
+
+    
+<header>
+    <h1>GreenBasket</h1>
+    <p>Fresh Groceries, Delivered with Care</p>
+
+    <a href="{% url 'cart_detail' %}"
+       style="color: white; font-weight: bold;">
+        View Shopping Cart
+    </a>
+</header>
+
+
+    <div class="container">
+
+        <div class="intro">
+            <h2>Welcome to GreenBasket!</h2>
+            <p>Browse our fresh fruits and vegetables at affordable prices.</p>
+            <p>Shop easily without creating an account.</p>
+        </div>
+
+        <h2>Our Grocery Products</h2>
+
+        <!-- Product Search and Category Filter -->
+
+        <form method="GET" action="{% url 'store_home' %}" class="search-form">
+
+            <input
+                type="text"
+                name="search"
+                placeholder="Search groceries..."
+                value="{{ search_query }}"
+            >
+
+            <select name="category">
+
+                <option value="">All Categories</option>
+
+                {% for category in categories %}
+
+                    <option value="{{ category.id }}"
+                        {% if selected_category == category.id|stringformat:"s" %}
+                            selected
+                        {% endif %}>
+                        {{ category.name }}
+                    </option>
+
+                {% endfor %}
+
+            </select>
+
+            <button type="submit" class="search-button">
+                Search
+            </button>
+
+            <a href="{% url 'store_home' %}" class="clear-link">
+                Clear Filters
+            </a>
+
+        </form>
+
+        <!-- Product Display Section -->
+
+        <div class="products">
+
+            {% for product in products %}
+
+                <div class="product-card">
+
+                    <h3>{{ product.name }}</h3>
+
+                    <p>{{ product.category.name }}</p>
+
+                    <p>{{ product.description }}</p>
+
+                    <p class="price">€{{ product.price }}</p>
+
+                    <p class="stock">
+                        Available Stock: {{ product.stock_quantity }}
+                    </p>
+
+                    <!-- Add to Cart Button -->
+
+                    {% if product.stock_quantity > 0 %}
+
+                        <form method="POST" action="{% url 'add_to_cart' product.id %}">
+
+                            {% csrf_token %}
+
+                            <button type="submit" class="cart-button">
+                                Add to Cart
+                            </button>
+
+                        </form>
+
+                    {% else %}
+
+                        <p style="color: red;">Out of Stock</p>
+
+                    {% endif %}
+
+                </div>
+
+            {% empty %}
+
+                <p>No products available right now.</p>
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+    <footer>
+        <p>© 2026 GreenBasket | Fresh and Sustainable Shopping</p>
+    </footer>
+
+</body>
+</html>
