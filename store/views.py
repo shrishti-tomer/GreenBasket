@@ -1,6 +1,7 @@
 
 from django.shortcuts import render
-from products.models import Product, Category
+
+from products.models import Category, Product
 
 
 def store_home(request):

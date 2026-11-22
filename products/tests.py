@@ -1,6 +1,8 @@
 
 from decimal import Decimal
+
 from django.test import TestCase
+
 from .models import Category, Product
 
 

@@ -1,7 +1,10 @@
 
 from decimal import Decimal
+
 from django.test import TestCase
+
 from products.models import Category, Product
+
 from .models import CartItem
 
 

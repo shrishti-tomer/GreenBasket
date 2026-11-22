@@ -1,11 +1,12 @@
-from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.db import transaction
+from django.shortcuts import get_object_or_404, redirect, render
+
+from cart.models import CartItem
+from products.models import Product
 
 from .forms import CheckoutForm
 from .models import Order, OrderItem
-from cart.models import CartItem
-from products.models import Product
 
 
 def checkout(request):
