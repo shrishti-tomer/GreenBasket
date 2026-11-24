@@ -97,14 +97,9 @@ jobs:
                "GreenBasket-deploy.zip" \
                ".github/*"
 
-      - name: Get Elastic Beanstalk storage bucket
+      - name: Set existing Elastic Beanstalk storage bucket
         run: |
-          BUCKET=$(aws elasticbeanstalk create-storage-location \
-            --region "$AWS_REGION" \
-            --query S3Bucket \
-            --output text)
-
-          echo "EB_BUCKET=$BUCKET" >> "$GITHUB_ENV"
+          echo "EB_BUCKET=elasticbeanstalk-us-east-1-292557556023" >> "$GITHUB_ENV"
 
       - name: Upload deployment package
         run: |
