@@ -1,4 +1,3 @@
-
 """
 Django settings for greenbasket project.
 
@@ -13,7 +12,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Security settings
 SECRET_KEY = os.environ["DJANGO_SECRET_KEY"]
 
-DEBUG = os.environ.get("DJANGO_DEBUG", "True").lower() == "true"
+DEBUG = os.environ.get("DJANGO_DEBUG", "False").lower() == "true"
 
 ALLOWED_HOSTS = os.environ.get(
     "DJANGO_ALLOWED_HOSTS",
@@ -140,3 +139,15 @@ LOGGING = {
         },
     },
 }
+
+
+# Production security hardening (controlled via DJANGO_SECURE_HTTPS for HTTP/HTTPS compatibility)
+SECURE_HTTPS = os.environ.get("DJANGO_SECURE_HTTPS", "False").lower() == "true"
+SESSION_COOKIE_SECURE = SECURE_HTTPS
+CSRF_COOKIE_SECURE = SECURE_HTTPS
+SECURE_SSL_REDIRECT = SECURE_HTTPS
+SECURE_HSTS_SECONDS = 31536000 if SECURE_HTTPS else 0
+SECURE_HSTS_INCLUDE_SUBDOMAINS = SECURE_HTTPS
+SECURE_HSTS_PRELOAD = SECURE_HTTPS
+SECURE_CONTENT_TYPE_NOSNIFF = True
+X_FRAME_OPTIONS = "DENY"
