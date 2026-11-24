@@ -79,7 +79,10 @@ DATABASES = {
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+        'NAME': (
+            'django.contrib.auth.password_validation.'
+            'UserAttributeSimilarityValidator'
+        ),
     },
     {
         'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
@@ -91,7 +94,6 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
-
 
 # Internationalization
 
@@ -141,7 +143,8 @@ LOGGING = {
 }
 
 
-# Production security hardening (controlled via DJANGO_SECURE_HTTPS for HTTP/HTTPS compatibility)
+# Production security hardening.
+# Controlled via DJANGO_SECURE_HTTPS for HTTP/HTTPS compatibility.
 SECURE_HTTPS = os.environ.get("DJANGO_SECURE_HTTPS", "False").lower() == "true"
 SESSION_COOKIE_SECURE = SECURE_HTTPS
 CSRF_COOKIE_SECURE = SECURE_HTTPS

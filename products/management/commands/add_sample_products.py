@@ -21,7 +21,13 @@ class Command(BaseCommand):
 
         products = [
             # Fruits
-            ("Organic Apples", "Fresh and naturally grown organic apples.", 2.50, 50, fruits),
+            (
+                "Organic Apples",
+                "Fresh and naturally grown organic apples.",
+                2.50,
+                50,
+                fruits,
+            ),
             ("Bananas", "Fresh ripe bananas.", 1.50, 60, fruits),
             ("Oranges", "Juicy and fresh oranges.", 2.00, 45, fruits),
             ("Mangoes", "Sweet and delicious mangoes.", 3.00, 30, fruits),
