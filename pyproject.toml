@@ -1,9 +1,0 @@
-[tool.ruff]
-extend-exclude = ["**/migrations/**"]
-
-[tool.ruff.lint]
-per-file-ignores = {
-    "orders/admin.py" = ["RUF012"],
-    "orders/forms.py" = ["RUF012"],
-    "orders/models.py" = ["RUF012"]
-}

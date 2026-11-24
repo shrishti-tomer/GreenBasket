@@ -1,4 +1,4 @@
-
+"""Admin configuration for the products app."""
 
 from django.contrib import admin
 
@@ -7,11 +7,15 @@ from .models import Category, Product
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
+    """Admin view for product categories."""
+
     list_display = ('name', 'description')
     search_fields = ('name',)
 
 
 class StockStatusFilter(admin.SimpleListFilter):
+    """Custom admin filter for product stock availability."""
+
     title = 'Stock Status'
     parameter_name = 'stock_status'
 
@@ -29,15 +33,19 @@ class StockStatusFilter(admin.SimpleListFilter):
         if self.value() == 'low_stock':
             return queryset.filter(
                 stock_quantity__gt=0,
-                stock_quantity__lte=10
+                stock_quantity__lte=10,
             )
 
         if self.value() == 'out_of_stock':
             return queryset.filter(stock_quantity=0)
 
+        return queryset
+
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
+    """Admin view for products with inline stock editing."""
+
     list_display = (
         'name',
         'category',
@@ -53,8 +61,9 @@ class ProductAdmin(admin.ModelAdmin):
 
     @admin.display(description='Stock Status')
     def stock_status(self, obj):
+        """Return a human-readable stock status label."""
         if obj.stock_quantity == 0:
             return "Out of Stock"
-        elif obj.stock_quantity <= 10:
+        if obj.stock_quantity <= 10:
             return "Low Stock"
         return "In Stock"
